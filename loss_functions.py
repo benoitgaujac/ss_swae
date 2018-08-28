@@ -202,13 +202,13 @@ def wae_recons_loss(opts, pi, x1, x2, y1=None, y2=None):
     # Continuous cost
     cont_real = tf.expand_dims(x1,axis=1)
     cont_recon = x2
-    cont_cost = continous_cost(opts, cont_real, cont_recon) / np.prod(shpe)
+    cont_cost = continous_cost(opts, cont_real, cont_recon) #/ np.prod(shpe)
     # Discrete cost
     if y1 is not None:
         disc_real = tf.one_hot(y1, opts["nclasses"])
         disc_recon = tf.one_hot(y2, opts["nclasses"])
         disc_cost = discrete_cost(opts, disc_real, disc_recon)
-        disc_cost = disc_cost / 2.
+        disc_cost = disc_cost #/ 2.
     else:
         disc_cost = 0.
     # Compute loss
