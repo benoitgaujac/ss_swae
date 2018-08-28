@@ -62,14 +62,16 @@ class WAE(object):
         logit = logit_pi - log_Zpi \
                 + tf.expand_dims(probs_logit,axis=-1)
         u_logit = ops.log_sum_exp(logit,axis=1,keepdims=False)
-        self.u_pi = ops.softmax(u_logit,axis=-1)
+        #self.u_pi = ops.softmax(u_logit,axis=-1)
+        u_pi = tf.multiply(ops.softmax(logit_pi,axis=-1),tf.expand_dims(self.probs,axis=-1))
+        self.u_pi = tf.reduce_sum(u_pi,axis=1,keepdims=False)
 
         logit_pi, self.l_enc_mean, self.l_enc_logSigma = self.encoder(
                                                         self.l_points,
                                                         True)
         idx_label = tf.stack([range,self.l_labels], axis=-1)
-        l_pi = ops.softmax(logit_pi,axis=-1)
-        self.l_pi = tf.gather_nd(l_pi,idx_label)
+        logit = tf.gather_nd(logit_pi,idx_label)
+        self.l_pi = ops.softmax(logit,axis=-1)
         # --- Sampling from encoded MoG prior
         self.u_mixtures_encoded = sample_mixtures(opts, self.u_enc_mean,
                                                         tf.exp(self.u_enc_logSigma),
