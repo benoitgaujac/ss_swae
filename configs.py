@@ -7,7 +7,7 @@ config_mnist = {}
 # Outputs set up
 config_mnist['verbose'] = False
 config_mnist['save_every_epoch'] = 1000
-config_mnist['print_every'] = 50 #250
+config_mnist['print_every'] = 100 #250
 config_mnist['work_dir'] = 'results_mnist'
 config_mnist['plot_num_pics'] = 100
 config_mnist['plot_num_cols'] = 10
@@ -52,7 +52,7 @@ config_mnist['mmd_kernel'] = 'IMQ' # RBF, IMQ
 
 # Model set up
 config_mnist['zdim'] = 8
-config_mnist['nmixtures'] = 12
+config_mnist['nmixtures'] = 10
 config_mnist['nclasses'] = 10
 config_mnist['sigma_prior'] = 1.
 config_mnist['prior_threshold'] = sqrt(6. * config_mnist['sigma_prior'] / config_mnist['zdim'])
@@ -69,15 +69,15 @@ config_mnist['init_e_std'] = -2.0
 config_mnist['e_gaus_arch'] = 'mlp' # mlp, dcgan, ali, began
 config_mnist['e_gaus_nlayers'] = 1
 config_mnist['e_gaus_nfilters'] = 16
-config_mnist['e_cat_arch'] = 'mlp' # mlp, dcgan, ali, began
+config_mnist['e_cat_arch'] = 'dcgan' # mlp, dcgan, ali, began
 config_mnist['e_cat_nlayers'] = 2
 config_mnist['e_cat_nfilters'] = 16
-config_mnist['e_lab_arch'] = 'mlp' # mlp, dcgan, ali, began
+config_mnist['e_lab_arch'] = 'dcgan' # mlp, dcgan, ali, began
 config_mnist['e_lab_nlayers'] = 2
 config_mnist['e_lab_nfilters'] = 16
 
-config_mnist['g_cont_arch'] = 'dcgan' # mlp, dcgan, dcgan_mod, ali, began
+config_mnist['g_cont_arch'] = 'dcgan_mod' # mlp, dcgan, dcgan_mod, ali, began
 config_mnist['g_cont_nlayers'] = 2
 config_mnist['g_cont_nfilters'] = 16
-config_mnist['g_disc_nlayers'] = 2
+config_mnist['g_disc_nlayers'] = 1
 config_mnist['g_disc_nfilters'] = 16

@@ -208,13 +208,13 @@ def wae_recons_loss(opts, pi, x1, x2, y1=None, y2=None):
         disc_real = tf.one_hot(y1, opts["nclasses"])
         disc_recon = tf.one_hot(y2, opts["nclasses"])
         disc_cost = discrete_cost(opts, disc_real, disc_recon)
-        disc_cost = disc_cost * np.prod(shpe) / 2. # To rescale the two terms
+        disc_cost = disc_cost #* np.prod(shpe) / 2. # To rescale the two terms
     else:
         disc_cost = 0.
     # Compute loss
     loss = tf.multiply(cont_cost + disc_cost, pi)
     loss = tf.reduce_sum(loss,axis=-1)
-    loss = 1.0 * tf.reduce_mean(loss) #coef: .2 for L2 and L1, .05 for L2sqr,
+    loss = tf.reduce_mean(loss)
     return loss
 
 
