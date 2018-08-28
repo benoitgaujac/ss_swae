@@ -60,7 +60,7 @@ class WAE(object):
                                                         False)
         log_Zpi = ops.log_sum_exp(logit_pi,axis=-1,keepdims=True)
         logit = logit_pi - log_Zpi \
-                + tf.expand_dims(log_probs,axis=-1)
+                + tf.expand_dims(probs_logit,axis=-1)
         u_logit = ops.log_sum_exp(logit,axis=1,keepdims=False)
         self.u_pi = ops.softmax(u_logit,axis=-1)
 
