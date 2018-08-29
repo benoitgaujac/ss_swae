@@ -552,15 +552,19 @@ class WAE(object):
                                                     100*u_acc_test)
                     logging.error(debug_str)
                     debug_str = 'TEST REC(L/U)=%.3f/%.3f, TRAIN REC(L/U)=%.3f/%.3f' % (
-                                                        opts['alpha']*alpha_decay*l_loss_rec_test,
+                                                        l_loss_rec_test,
+                                                        #opts['alpha']*alpha_decay*l_loss_rec_test,
                                                         u_loss_rec_test,
-                                                        opts['alpha']*losses_rec[-1][0],
+                                                        losses_rec[-1][0],
+                                                        #opts['alpha']*losses_rec[-1][0],
                                                         losses_rec[-1][1])
                     logging.error(debug_str)
                     debug_str = 'MATCH(L/U)=%.3f/%.3f, XENT(L/U)=%.3f/%.3f' % (
-                                                        opts['l_lambda']*opts['alpha']*losses_match[-1][0],
+                                                        opts['l_lambda']*losses_match[-1][0],
+                                                        #opts['l_lambda']*opts['alpha']*losses_match[-1][0],
                                                         opts['u_lambda']*losses_match[-1][1],
                                                         opts['l_beta']*opts['alpha']*alpha_decay*losses_xent[-1][0],
+                                                        opts['l_beta']*alpha_decay*losses_xent[-1][0],
                                                         opts['u_beta']*losses_xent[-1][1])
                     logging.error(debug_str)
                     debug_str = 'Clusters ID: %s' % (str(labelled_clusters))
