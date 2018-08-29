@@ -563,8 +563,8 @@ class WAE(object):
                                                         opts['l_lambda']*losses_match[-1][0],
                                                         #opts['l_lambda']*opts['alpha']*losses_match[-1][0],
                                                         opts['u_lambda']*losses_match[-1][1],
-                                                        opts['l_beta']*opts['alpha']*alpha_decay*losses_xent[-1][0],
-                                                        opts['l_beta']*alpha_decay*losses_xent[-1][0],
+                                                        opts['l_beta']*losses_xent[-1][0],
+                                                        #opts['l_beta']*opts['alpha']*alpha_decay*losses_xent[-1][0],
                                                         opts['u_beta']*losses_xent[-1][1])
                     logging.error(debug_str)
                     debug_str = 'Clusters ID: %s' % (str(labelled_clusters))
