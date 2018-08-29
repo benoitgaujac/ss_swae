@@ -131,7 +131,7 @@ class WAE(object):
                          + self.u_lmbd * self.u_cont_penalty\
                          + self.u_beta * self.u_disc_penalty
         # Compute wae obj
-        self.objective = self.alpha * self.l_loss + self.u_loss
+        self.objective = self.alpha*self.alpha_decay * self.l_loss + self.u_loss
 
         # Pre Training
         self.pretrain_loss()
@@ -189,6 +189,7 @@ class WAE(object):
         decay = tf.placeholder(tf.float32, name='rate_decay_ph')
         is_training = tf.placeholder(tf.bool, name='is_training_ph')
         alpha = tf.placeholder(tf.float32, name='alpha')
+        alpha_decay = tf.placeholder(tf.float32, name='alpha')
         l_lmbda = tf.placeholder(tf.float32, name='lambda')
         l_beta = tf.placeholder(tf.float32, name='beta')
         u_lmbda = tf.placeholder(tf.float32, name='lambda')
@@ -197,6 +198,7 @@ class WAE(object):
         self.lr_decay = decay
         self.is_training = is_training
         self.alpha = alpha
+        self.alpha_decay = alpha_decay
         self.l_lmbd = l_lmbda
         self.l_beta = l_beta
         self.u_lmbd = u_lmbda
@@ -371,7 +373,8 @@ class WAE(object):
         self.start_time = time.time()
         losses, losses_rec, losses_match, losses_xent = [], [], [], []
         kl_gau, kl_dis  = [], []
-        decay, counter = 1., 0
+        decay, alpha_decay = 1., 1.
+        counter = 0
         if opts['method']=='swae':
             alpha = opts['alpha']
             l_lmbda = opts['l_lambda']
@@ -390,6 +393,10 @@ class WAE(object):
                 decay = decay / 5.
             if epoch == 100:
                 decay = decay / 10.
+            # Update alpha
+            if (epoch+1)%5 == 0:
+                alpha_decay = alpha_decay / 2.
+
             # Save the model
             if epoch > 0 and epoch % opts['save_every_epoch'] == 0:
                 self.saver.save(self.sess, os.path.join(
@@ -425,6 +432,7 @@ class WAE(object):
                            self.u_sample_mix_noise: u_batch_mix_noise,
                            self.lr_decay: decay,
                            self.alpha: alpha,
+                           self.alpha_decay: alpha_decay,
                            self.l_lmbd: l_lmbda,
                            self.l_beta: l_beta,
                            self.u_lmbd: u_lmbda,
